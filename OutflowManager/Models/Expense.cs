@@ -8,6 +8,7 @@ namespace OutflowManager.Models
 {
     public class Expense
     {
+        public Guid ID { get; set; }
         public string Name { get; set; }
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
