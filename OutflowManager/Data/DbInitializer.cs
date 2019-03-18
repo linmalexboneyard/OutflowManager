@@ -18,13 +18,15 @@ namespace OutflowManager.Data
                 return;   // DB has been seeded
             }
 
-            var expenses = new Expense[]
+            WishListItem[] wishlistitems = new WishListItem[]
             {
-                new Expense{Name="Mortgage"},
-                new Expense{Name="Internet Bill"},
-                new Expense{Name="Electric Bill"}
+                new WishListItem{ID= new Guid(),Name="Pull-up bar", EstAmountHigh=80, EstAmountLow=20 },
+                new WishListItem{ID= new Guid(),Name="Tankless Water Heater", EstAmountHigh=2000, EstAmountLow=1500 },
+                new WishListItem{ID= new Guid(),Name="Fancy Litter Box Setup", EstAmountHigh=500, EstAmountLow=100 },
+                new WishListItem{ID= new Guid(),Name="Porch cat door", EstAmountHigh=1000, EstAmountLow=250 },
+
             };
-            foreach (Expense s in expenses)
+            foreach (WishListItem s in wishlistitems)
             {
                 context.Expenses.Add(s);
             }

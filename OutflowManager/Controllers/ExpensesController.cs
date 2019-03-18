@@ -25,7 +25,8 @@ namespace OutflowManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
         {
-            return await _context.Expenses.ToListAsync();
+            var x = await _context.Expenses.ToListAsync();
+            return x;
         }
 
         // GET: api/Expenses/5
