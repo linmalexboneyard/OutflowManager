@@ -1,11 +1,22 @@
 ﻿import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 
 export class CreateWishListItem extends Component {
     static displayName = CreateWishListItem.name;
 
     constructor(props) {
         super(props);
-        this.state = { loading: false };
+        this.state = { loading: false, toWishList: false };
+    }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    }
+
+    renderRedirect = () => {
+        return <Redirect to='/wish-list' />
     }
 
     handleSubmit = event => {
@@ -17,7 +28,7 @@ export class CreateWishListItem extends Component {
             body: data
         })
             .then(response => response.json())
-            .then(this.props.reRender);
+            .then(this.setState({ toWishList: true}))
     };
 
     renderForm = () => {
@@ -68,6 +79,10 @@ export class CreateWishListItem extends Component {
 
 
     render() {
+        if (this.state.toWishList === true) {
+            return <Redirect to='/wish-list' />
+        }
+
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : this.renderForm();

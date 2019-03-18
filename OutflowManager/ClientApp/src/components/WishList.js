@@ -15,7 +15,6 @@ export class WishList extends Component {
   }
 
     static renderWishListTable(wishListItems) {
-        console.log(wishListItems);
     return (
       <table className='table table-striped'>
         <thead>
