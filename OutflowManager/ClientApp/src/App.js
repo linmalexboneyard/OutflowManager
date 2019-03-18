@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { WishList } from './components/WishList';
-import { Counter } from './components/Counter';
+import { CreateWishListItem } from './components/CreateWishListItem';
 
 export default class App extends Component {
     static displayName = App.name;
@@ -12,8 +12,8 @@ export default class App extends Component {
         return (
             <Layout>
                 <Route exact path='/' component={Home} />
-                <Route path='/counter' component={Counter} />
                 <Route path='/wish-list' component={WishList} />
+                <Route path='/add-to-wish-list' component={CreateWishListItem} />
             </Layout>
         );
     }

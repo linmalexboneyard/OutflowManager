@@ -74,7 +74,7 @@ namespace OutflowManager.Controllers
 
         // POST: api/WishListItems
         [HttpPost]
-        public async Task<ActionResult<WishListItem>> PostWishListItem(WishListItem wishListItem)
+        public async Task<ActionResult<WishListItem>> PostWishListItem([FromForm] WishListItem wishListItem)
         {
             _context.WishListItems.Add(wishListItem);
             await _context.SaveChangesAsync();
