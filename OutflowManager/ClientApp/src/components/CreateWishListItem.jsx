@@ -9,16 +9,6 @@ export class CreateWishListItem extends Component {
         this.state = { loading: false, toWishList: false };
     }
 
-    setRedirect = () => {
-        this.setState({
-            redirect: true
-        })
-    }
-
-    renderRedirect = () => {
-        return <Redirect to='/wish-list' />
-    }
-
     handleSubmit = event => {
         event.preventDefault();
         const data = new FormData(event.target);
@@ -86,7 +76,6 @@ export class CreateWishListItem extends Component {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : this.renderForm();
-
 
         return (
             <div>
