@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace OutflowManager.Models
 {
-    public class WishListItem:Transaction
+    public class Asset
     {
-        public float EstAmountHigh { get; set; }
-        public float EstAmountLow { get; set; }
     }
 }
