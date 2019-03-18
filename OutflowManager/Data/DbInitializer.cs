@@ -13,22 +13,22 @@ namespace OutflowManager.Data
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Expenses.Any())
+            if (context.Transactions.Any())
             {
                 return;   // DB has been seeded
             }
 
             WishListItem[] wishlistitems = new WishListItem[]
             {
-                new WishListItem{ID= new Guid(),Name="Pull-up bar", EstAmountHigh=80, EstAmountLow=20 },
-                new WishListItem{ID= new Guid(),Name="Tankless Water Heater", EstAmountHigh=2000, EstAmountLow=1500 },
-                new WishListItem{ID= new Guid(),Name="Fancy Litter Box Setup", EstAmountHigh=500, EstAmountLow=100 },
-                new WishListItem{ID= new Guid(),Name="Porch cat door", EstAmountHigh=1000, EstAmountLow=250 },
+                new WishListItem{ID= new Guid(),Payee="Pull-up bar", EstAmountHigh=80, EstAmountLow=20 },
+                new WishListItem{ID= new Guid(),Payee="Tankless Water Heater", EstAmountHigh=2000, EstAmountLow=1500 },
+                new WishListItem{ID= new Guid(),Payee="Fancy Litter Box Setup", EstAmountHigh=500, EstAmountLow=100 },
+                new WishListItem{ID= new Guid(),Payee="Porch cat door", EstAmountHigh=1000, EstAmountLow=250 },
 
             };
             foreach (WishListItem s in wishlistitems)
             {
-                context.Expenses.Add(s);
+                context.Transactions.Add(s);
             }
             context.SaveChanges();
 

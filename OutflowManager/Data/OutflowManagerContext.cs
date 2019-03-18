@@ -13,7 +13,7 @@ namespace OutflowManager.Data
         {
         }
 
-        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<WishListItem> WishListItems { get; set; }
 
     }
