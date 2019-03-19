@@ -16,7 +16,7 @@ export class WishList extends Component {
         this.setState({ wishListItems: data, loading: false });
       });
   }
-
+  //#region //* Styling info -----------------------------------------------------------------------
   ColorScheme = {
     yellowish: "#EFE738",
     purplish: "#6C2EA1",
@@ -28,7 +28,7 @@ export class WishList extends Component {
       color: "white",
       backgroundcolor: this.ColorScheme.purplish,
       bordercolor: this.ColorScheme.purplish,
-      margin: "0px"
+      margin: "5px"
     },
     DeleteButton: {
       color: "white",
@@ -43,8 +43,48 @@ export class WishList extends Component {
       margin: "5px"
     }
   };
+  //#endregion //*---------------------------------------------------------------------------------------
 
-  renderWishListTable = wishListItems => {
+  //#region //* Render and display functions -----------------------------------------------------------------------
+  renderHeader = () => {
+    let HeaderDiv = styled.div`
+      width: 100%;
+      display: inline-grid;
+      justify-content: space-between;
+      align-content: space-around;
+      grid-template-columns: auto auto;
+    `;
+
+    let createButtonData = this.ButtonStyling["AddItemButton"];
+
+    return (
+      <HeaderDiv>
+        <p>These are the current wish list items</p>
+        <MyButton
+          buttonData={createButtonData}
+          type="submit"
+          onClick={this.handleModalToggle}
+        >
+          Add Wish List Item
+        </MyButton>
+      </HeaderDiv>
+    );
+  };
+
+  renderModal = () => {
+    return (
+      <CreateModal
+        modalType="WishList"
+        isClosed={this.state.modalIsHidden}
+        handleClose={this.handleModalToggle}
+        handleCreate={this.handleCreate}
+      >
+        Add an Item to Your Wish List
+      </CreateModal>
+    );
+  };
+
+  renderWishListTable = () => {
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -53,7 +93,7 @@ export class WishList extends Component {
 
     let editButtonData = this.ButtonStyling["EditButton"];
     let deleteButtonData = this.ButtonStyling["DeleteButton"];
-
+    let { wishListItems } = this.state;
     return (
       <table className="table table-striped">
         <thead>
@@ -101,48 +141,9 @@ export class WishList extends Component {
       ? this.setState({ modalIsHidden: false })
       : this.setState({ modalIsHidden: true });
   };
+  //#endregion //*---------------------------------------------------------------------------------------
 
-  render() {
-    let contents = this.state.loading ? (
-      <p>
-        <em>Loading...</em>
-      </p>
-    ) : (
-      this.renderWishListTable(this.state.wishListItems)
-    );
-
-    const HeaderDiv = styled.div`
-      width: 100%;
-      justify-items: end;
-      display: inline-grid;
-    `;
-    let createButtonData = this.ButtonStyling["AddItemButton"];
-
-    return (
-      <div>
-        <h1>Wish List</h1>
-        <HeaderDiv>
-          <MyButton
-            buttonData={createButtonData}
-            type="submit"
-            onClick={this.handleModalToggle}
-          >
-            Add Wish List Item
-          </MyButton>
-        </HeaderDiv>
-        <p>These are the current wish list items</p>
-        <CreateModal
-          modalType="WishList"
-          isClosed={this.state.modalIsHidden}
-          handleClose={this.handleModalToggle}
-          handleCreate={this.handleCreate}
-        />
-        {contents}
-      </div>
-    );
-  }
-
-  //#region //* CRUD operations -----------------------------------------------------------------------
+  //#region //* CRUD functions -----------------------------------------------------------------------
   handleDelete = id => {
     let fetchURL = "api/WishListItems/" + id;
     fetch(fetchURL, {
@@ -169,4 +170,25 @@ export class WishList extends Component {
       );
   };
   //#endregion
+
+  render() {
+    let contents = this.state.loading ? (
+      <p>
+        <em>Loading...</em>
+      </p>
+    ) : (
+      <div>
+        {this.renderHeader()}
+        {this.renderModal()}
+        {this.renderWishListTable()}
+      </div>
+    );
+
+    return (
+      <div>
+        <h1>Wish List</h1>
+        {contents}
+      </div>
+    );
+  }
 }
