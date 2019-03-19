@@ -16,30 +16,43 @@ export class WishList extends Component {
       });
   }
 
-  toggleModal = () => {
-    this.state.modalIsOpen
-      ? this.setState({ modalIsOpen: false })
-      : this.setState({ modalIsOpen: true });
+  ColorScheme = {
+    yellowish: "#EFE738",
+    purplish: "#6C2EA1",
+    pinkish: "#B22A8C"
   };
 
-  handleItemDelete(wishlistItemID) {
-    let fetchURL = "api/WishListItems/" + wishlistItemID;
-    fetch(fetchURL, {
-      method: "delete"
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ wishListItems: data }));
-  }
+  ButtonData = {
+    AddItemButton: {
+      color: "white",
+      backgroundcolor: this.ColorScheme.purplish,
+      bordercolor: this.ColorScheme.purplish,
+      margin: "0px"
+    },
+    DeleteButton: {
+      color: "white",
+      backgroundcolor: this.ColorScheme.pinkish,
+      bordercolor: this.ColorScheme.pinkish,
+      margin: "5px"
+    },
+    EditButton: {
+      color: "black",
+      backgroundcolor: this.ColorScheme.yellowish,
+      bordercolor: this.ColorScheme.yellowish,
+      margin: "5px"
+    }
+  };
 
-  handleItemCreate = event => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    fetch("api/WishListItems", {
-      method: "post",
-      body: data
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ wishListItems: data, modalIsOpen: false }));
+  renderButton = buttonName => {
+    let buttonData = this.ButtonData[buttonName];
+    let Button = styled.button`
+      background-color: ${buttonData.backgroundcolor};
+      border: solid 1px ${buttonData.bordercolor};
+      color: ${buttonData.color};
+      border-radius: 5px;
+      margin: ${buttonData.margin};
+    `;
+    return Button;
   };
 
   renderWishListTable = wishListItems => {
@@ -48,6 +61,9 @@ export class WishList extends Component {
       currency: "USD",
       minimumFractionDigits: 2
     });
+
+    let EditButton = this.renderButton("EditButton");
+    let DeleteButton = this.renderButton("DeleteButton");
 
     return (
       <table className="table table-striped">
@@ -69,26 +85,50 @@ export class WishList extends Component {
               <td>{wishListItem.date}</td>
 
               <td>
-                <button
-                  className="btn btn-warning m-1"
+                <DeleteButton
                   type="button"
                   onClick={() => this.handleItemDelete(wishListItem.id)}
                 >
                   Delete
-                </button>
-                <button
-                  className="btn btn-warning m-1"
+                </DeleteButton>
+                <EditButton
                   type="button"
                   onClick={() => this.handleItemDelete(wishListItem.id)}
                 >
                   Edit
-                </button>
+                </EditButton>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     );
+  };
+
+  handleModalToggle = () => {
+    this.state.modalIsOpen
+      ? this.setState({ modalIsOpen: false })
+      : this.setState({ modalIsOpen: true });
+  };
+
+  handleItemDelete = id => {
+    let fetchURL = "api/WishListItems/" + id;
+    fetch(fetchURL, {
+      method: "delete"
+    })
+      .then(response => response.json())
+      .then(data => this.setState({ wishListItems: data }));
+  };
+
+  handleItemCreate = event => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch("api/WishListItems", {
+      method: "post",
+      body: data
+    })
+      .then(response => response.json())
+      .then(data => this.setState({ wishListItems: data, modalIsOpen: false }));
   };
 
   render() {
@@ -100,30 +140,24 @@ export class WishList extends Component {
       this.renderWishListTable(this.state.wishListItems)
     );
 
-    let AddItemButton = styled.button`
-      background-color: #383276;
-      color: white;
-      border: solid 1px #383276;
-      border-radius: 5px;
-    `;
-
-    let HeaderDiv = styled.div`
+    const HeaderDiv = styled.div`
       width: 100%;
       justify-items: end;
       display: inline-grid;
     `;
+    const AddItemButton = this.renderButton("AddItemButton");
 
     return (
       <div>
         <h1>Wish List</h1>
         <HeaderDiv>
-          <AddItemButton type="submit" onClick={this.toggleModal}>
+          <AddItemButton type="submit" onClick={this.handleModalToggle}>
             Add Wish List Item
           </AddItemButton>
         </HeaderDiv>
         <CreateWishListItem
           isOpen={this.state.modalIsOpen}
-          handleClose={this.toggleModal}
+          handleClose={this.handleModalToggle}
           handleCreate={this.handleItemCreate}
         />
         <p>These are the current wish list items</p>
