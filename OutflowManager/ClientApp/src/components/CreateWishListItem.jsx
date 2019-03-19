@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import ReactModal from "react-modal";
+import styled from "styled-components";
 
 export class CreateWishListItem extends Component {
   static displayName = CreateWishListItem.name;
@@ -22,7 +22,7 @@ export class CreateWishListItem extends Component {
 
   renderForm = () => {
     return (
-      <form onSubmit={this.props.handleCreate}>
+      <form onSubmit={this.props.handleCreate} method="dialog">
         <div className="form-group">
           <label>Item Wanted</label>
           <input type="text" className="form-control" id="1" name="Payee" />
@@ -65,18 +65,26 @@ export class CreateWishListItem extends Component {
       this.renderForm()
     );
 
+    let Modal = styled.dialog`
+      display: grid;
+    `;
+
+    let Button = styled.button`
+      justify-self: end;
+    `;
+
     return (
-      <ReactModal isOpen={this.props.isOpen}>
-        <button
+      <Modal hidden={this.props.isClosed}>
+        <Button
           className="btn btn-primary"
           type="submit"
           onClick={this.props.handleClose}
         >
-          Close
-        </button>
+          X
+        </Button>
         <h1>Add an Item to Your Wish List</h1>
-        <div>{contents}</div>
-      </ReactModal>
+        {contents}
+      </Modal>
     );
   }
 }

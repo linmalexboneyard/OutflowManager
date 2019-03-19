@@ -7,7 +7,7 @@ export class WishList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { wishListItems: [], loading: true, modalIsOpen: false };
+    this.state = { wishListItems: [], loading: true, modalIsHidden: true };
 
     fetch("api/WishListItems")
       .then(response => response.json())
@@ -106,9 +106,9 @@ export class WishList extends Component {
   };
 
   handleModalToggle = () => {
-    this.state.modalIsOpen
-      ? this.setState({ modalIsOpen: false })
-      : this.setState({ modalIsOpen: true });
+    this.state.modalIsHidden
+      ? this.setState({ modalIsHidden: false })
+      : this.setState({ modalIsHidden: true });
   };
 
   handleItemDelete = id => {
@@ -156,7 +156,7 @@ export class WishList extends Component {
           </AddItemButton>
         </HeaderDiv>
         <CreateWishListItem
-          isOpen={this.state.modalIsOpen}
+          isClosed={this.state.modalIsHidden}
           handleClose={this.handleModalToggle}
           handleCreate={this.handleItemCreate}
         />
