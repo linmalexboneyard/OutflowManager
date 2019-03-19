@@ -23,7 +23,7 @@ export class CreateWishListItem extends Component {
 
     renderForm = () => {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.props.handleCreate}>
                 <div className="form-group">
                     <label>Item Wanted</label>
                     <input
@@ -69,15 +69,6 @@ export class CreateWishListItem extends Component {
 
 
     render() {
-        if (this.state.toWishList === true) {
-            return <Redirect
-                to={{
-                    pathname: "/wish-list",
-                    state: { wishListItems: this.state.wishListItems }
-                }}
-            />
-        }
-
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : this.renderForm();

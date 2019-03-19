@@ -74,12 +74,12 @@ namespace OutflowManager.Controllers
 
         // POST: api/WishListItems
         [HttpPost]
-        public async Task<ActionResult<WishListItem>> PostWishListItem([FromForm] WishListItem wishListItem)
+        public async Task<ActionResult<IEnumerable<WishListItem>>> PostWishListItem([FromForm] WishListItem wishListItem)
         {
             _context.WishListItems.Add(wishListItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWishListItem", new { id = wishListItem.ID }, wishListItem);
+            return _context.WishListItems.ToListAsync().Result;
         }
 
         // DELETE: api/WishListItems/5

@@ -13,7 +13,6 @@ export default class App extends Component {
             <Layout>
                 <Route exact path='/' component={Home} />
                 <Route path='/wish-list' component={WishList} />
-                <Route path='/add-to-wish-list' component={CreateWishListItem} />
             </Layout>
         );
     }
