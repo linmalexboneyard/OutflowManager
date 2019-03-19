@@ -42,6 +42,11 @@ export class WishList extends Component {
     }
 
     renderWishListTable = (wishListItems) => {
+        const formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2
+        });
         return (
             <table className='table table-striped'>
                 <thead>
@@ -57,13 +62,16 @@ export class WishList extends Component {
                     {wishListItems.map(wishListItem =>
                         <tr key={wishListItem.id}>
                             <td>{wishListItem.payee}</td>
-                            <td>{wishListItem.estAmountLow}</td>
-                            <td>{wishListItem.estAmountHigh}</td>
+                            <td>{formatter.format(wishListItem.estAmountLow)}</td>
+                            <td>{formatter.format(wishListItem.estAmountHigh)}</td>
                             <td>{wishListItem.date}</td>
 
                             <td>
-                                <button className="btn btn-warning" type="button" onClick={() => this.handleItemDelete(wishListItem.id)}>
+                                <button className="btn btn-warning m-1" type="button" onClick={() => this.handleItemDelete(wishListItem.id)}>
                                     Delete
+                                </button>
+                                <button className="btn btn-warning m-1" type="button" onClick={() => this.handleItemDelete(wishListItem.id)}>
+                                    Edit
                                 </button>
                             </td>
                         </tr>

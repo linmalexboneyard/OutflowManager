@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OutflowManager.Models
 {
     public class WishListItem:Transaction
     {
+        [DataType(DataType.Currency)]
         public float EstAmountHigh { get; set; }
+        [DataType(DataType.Currency)]
         public float EstAmountLow { get; set; }
     }
 }
