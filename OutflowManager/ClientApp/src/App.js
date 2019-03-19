@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { WishList } from './components/WishList';
-import { CreateWishListItem } from './components/CreateWishListItem';
+import React, { Component } from "react";
+import { Route } from "react-router";
+import { Layout } from "./components/Layout";
+import { Home } from "./components/Home";
+import { WishList } from "./components/WishList";
+import { CreateModal } from "./components/CreateModal";
 
 export default class App extends Component {
-    static displayName = App.name;
+  static displayName = App.name;
 
-    render() {
-        return (
-            <Layout>
-                <Route exact path='/' component={Home} />
-                <Route path='/wish-list' component={WishList} />
-            </Layout>
-        );
-    }
+  render() {
+    return (
+      <Layout>
+        <Route exact path="/" component={Home} />
+        <Route path="/wish-list" component={WishList} />
+      </Layout>
+    );
+  }
 }

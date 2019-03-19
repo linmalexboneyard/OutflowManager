@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { CreateWishListItem } from "./CreateWishListItem";
+import { CreateModal } from "./CreateModal";
 import styled from "styled-components";
+import { MyButton } from "./MyButton";
 
 export class WishList extends Component {
   static displayName = WishList.name;
@@ -22,7 +23,7 @@ export class WishList extends Component {
     pinkish: "#B22A8C"
   };
 
-  ButtonData = {
+  ButtonStyling = {
     AddItemButton: {
       color: "white",
       backgroundcolor: this.ColorScheme.purplish,
@@ -43,18 +44,6 @@ export class WishList extends Component {
     }
   };
 
-  renderButton = buttonName => {
-    let buttonData = this.ButtonData[buttonName];
-    let Button = styled.button`
-      background-color: ${buttonData.backgroundcolor};
-      border: solid 1px ${buttonData.bordercolor};
-      color: ${buttonData.color};
-      border-radius: 5px;
-      margin: ${buttonData.margin};
-    `;
-    return Button;
-  };
-
   renderWishListTable = wishListItems => {
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -62,8 +51,8 @@ export class WishList extends Component {
       minimumFractionDigits: 2
     });
 
-    let EditButton = this.renderButton("EditButton");
-    let DeleteButton = this.renderButton("DeleteButton");
+    let editButtonData = this.ButtonStyling["EditButton"];
+    let deleteButtonData = this.ButtonStyling["DeleteButton"];
 
     return (
       <table className="table table-striped">
@@ -85,18 +74,20 @@ export class WishList extends Component {
               <td>{wishListItem.date}</td>
 
               <td>
-                <DeleteButton
+                <MyButton
+                  buttonData={deleteButtonData}
                   type="button"
-                  onClick={() => this.handleItemDelete(wishListItem.id)}
+                  onClick={() => this.handleDelete(wishListItem.id)}
                 >
                   Delete
-                </DeleteButton>
-                <EditButton
+                </MyButton>
+                <MyButton
+                  buttonData={editButtonData}
                   type="button"
-                  onClick={() => this.handleItemDelete(wishListItem.id)}
+                  onClick={() => this.handleEdit(wishListItem.id)}
                 >
                   Edit
-                </EditButton>
+                </MyButton>
               </td>
             </tr>
           ))}
@@ -109,26 +100,6 @@ export class WishList extends Component {
     this.state.modalIsHidden
       ? this.setState({ modalIsHidden: false })
       : this.setState({ modalIsHidden: true });
-  };
-
-  handleItemDelete = id => {
-    let fetchURL = "api/WishListItems/" + id;
-    fetch(fetchURL, {
-      method: "delete"
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ wishListItems: data }));
-  };
-
-  handleItemCreate = event => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    fetch("api/WishListItems", {
-      method: "post",
-      body: data
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ wishListItems: data, modalIsOpen: false }));
   };
 
   render() {
@@ -145,24 +116,54 @@ export class WishList extends Component {
       justify-items: end;
       display: inline-grid;
     `;
-    const AddItemButton = this.renderButton("AddItemButton");
+    let createButtonData = this.ButtonStyling["AddItemButton"];
 
     return (
       <div>
         <h1>Wish List</h1>
         <HeaderDiv>
-          <AddItemButton type="submit" onClick={this.handleModalToggle}>
+          <MyButton
+            buttonData={createButtonData}
+            type="submit"
+            onClick={this.handleModalToggle}
+          >
             Add Wish List Item
-          </AddItemButton>
+          </MyButton>
         </HeaderDiv>
-        <CreateWishListItem
+        <p>These are the current wish list items</p>
+        <CreateModal
           isClosed={this.state.modalIsHidden}
           handleClose={this.handleModalToggle}
-          handleCreate={this.handleItemCreate}
+          handleCreate={this.handleCreate}
         />
-        <p>These are the current wish list items</p>
         {contents}
       </div>
     );
   }
+
+  //#region //* CRUD operations -----------------------------------------------------------------------
+  handleDelete = id => {
+    let fetchURL = "api/WishListItems/" + id;
+    fetch(fetchURL, {
+      method: "delete"
+    })
+      .then(response => response.json())
+      .then(data => this.setState({ wishListItems: data }));
+  };
+
+  handleEdit = id => {
+    console.log(id);
+  };
+
+  handleCreate = event => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch("api/WishListItems", {
+      method: "post",
+      body: data
+    })
+      .then(response => response.json())
+      .then(data => this.setState({ wishListItems: data, modalIsOpen: false }));
+  };
+  //#endregion
 }

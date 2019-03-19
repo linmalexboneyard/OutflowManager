@@ -1,8 +1,8 @@
 ﻿import React, { Component } from "react";
 import styled from "styled-components";
 
-export class CreateWishListItem extends Component {
-  static displayName = CreateWishListItem.name;
+export class CreateModal extends Component {
+  static displayName = CreateModal.name;
 
   constructor(props) {
     super(props);
