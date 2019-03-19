@@ -83,8 +83,23 @@ namespace OutflowManager.Controllers
         }
 
         // DELETE: api/WishListItems/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<WishListItem>> DeleteWishListItem(Guid id)
+        //{
+        //    var wishListItem = await _context.WishListItems.FindAsync(id);
+        //    if (wishListItem == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.WishListItems.Remove(wishListItem);
+        //    await _context.SaveChangesAsync();
+
+        //    return wishListItem;
+        //}
+
         [HttpDelete("{id}")]
-        public async Task<ActionResult<WishListItem>> DeleteWishListItem(Guid id)
+        public async Task<ActionResult<IEnumerable<WishListItem>>> DeleteWishListItem(Guid id)
         {
             var wishListItem = await _context.WishListItems.FindAsync(id);
             if (wishListItem == null)
@@ -95,7 +110,7 @@ namespace OutflowManager.Controllers
             _context.WishListItems.Remove(wishListItem);
             await _context.SaveChangesAsync();
 
-            return wishListItem;
+            return _context.WishListItems.ToListAsync().Result;
         }
 
         private bool WishListItemExists(Guid id)

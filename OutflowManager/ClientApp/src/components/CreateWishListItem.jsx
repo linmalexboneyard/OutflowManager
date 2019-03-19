@@ -6,19 +6,18 @@ export class CreateWishListItem extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { loading: false, toWishList: false };
+        this.state = { loading: false, toWishList: false, wishListItems: [] };
     }
 
     handleSubmit = event => {
         event.preventDefault();
         const data = new FormData(event.target);
-        console.log(data);
         fetch("api/WishListItems", {
             method: "post",
             body: data
         })
             .then(response => response.json())
-            .then(this.setState({ toWishList: true}))
+            .then(data=> this.setState({ toWishList: true, wishListItems:data}))
     };
 
     renderForm = () => {
@@ -70,7 +69,12 @@ export class CreateWishListItem extends Component {
 
     render() {
         if (this.state.toWishList === true) {
-            return <Redirect to='/wish-list' />
+            return <Redirect
+                to={{
+                    pathname: "/wish-list",
+                    state: { wishListItems: this.state.wishListItems }
+                }}
+            />
         }
 
         let contents = this.state.loading
