@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
+import {CreateWishListItem} from './CreateWishListItem'
 
 export class WishList extends Component {
     static displayName = WishList.name;
 
     constructor(props) {
         super(props);
-        this.state = { wishListItems: [], loading: true };
+        this.state = { wishListItems: [], loading: true, modalIsOpen:false };
 
         fetch('api/WishListItems')
             .then(response => response.json())
             .then(data => {
                 this.setState({ wishListItems: data, loading: false });
             });
+    }
+
+    toggleModal = () => {
+        this.state.modalIsOpen
+            ? this.setState({ modalIsOpen: false}) 
+            : this.setState({ modalIsOpen: true });
     }
 
     handleDelete(wishlistItemID) {
@@ -60,7 +67,10 @@ export class WishList extends Component {
         return (
             <div>
                 <h1>Wish List</h1>
-                
+                <button className="btn btn-primary" type="submit" onClick={this.toggleModal}>
+                    Add Wish List Item
+                </button>
+                <CreateWishListItem isOpen={this.state.modalIsOpen} handleClose={this.toggleModal}/>
                 <p>These are the current wish list items</p>
                 {contents}
             </div>

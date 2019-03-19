@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
+import ReactModal from 'react-modal';
 
 export class CreateWishListItem extends Component {
     static displayName = CreateWishListItem.name;
@@ -82,12 +83,15 @@ export class CreateWishListItem extends Component {
             : this.renderForm();
 
         return (
-            <div>
+            <ReactModal isOpen={this.props.isOpen}>
+                <button className="btn btn-primary" type="submit" onClick={this.props.handleClose}>
+                    Close
+                </button>
                 <h1>Add an Item to Your Wish List</h1>
                 <div>
                     {contents}
                 </div>
-            </div>
+            </ReactModal>
         );
     }
 }
