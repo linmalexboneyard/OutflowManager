@@ -132,6 +132,7 @@ export class WishList extends Component {
         </HeaderDiv>
         <p>These are the current wish list items</p>
         <CreateModal
+          modalType="WishList"
           isClosed={this.state.modalIsHidden}
           handleClose={this.handleModalToggle}
           handleCreate={this.handleCreate}
@@ -163,7 +164,9 @@ export class WishList extends Component {
       body: data
     })
       .then(response => response.json())
-      .then(data => this.setState({ wishListItems: data, modalIsOpen: false }));
+      .then(data =>
+        this.setState({ wishListItems: data, modalIsHidden: true })
+      );
   };
   //#endregion
 }

@@ -6,22 +6,12 @@ export class CreateModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { loading: false, toWishList: false, wishListItems: [] };
+    this.state = { loading: false };
   }
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    fetch("api/WishListItems", {
-      method: "post",
-      body: data
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ toWishList: true, wishListItems: data }));
-  };
-
-  renderForm = () => {
-    return (
+  //#region //* forms -----------------------------------------------------------------------
+  forms = {
+    WishList: (
       <form onSubmit={this.props.handleCreate} method="dialog">
         <div className="form-group">
           <label>Item Wanted</label>
@@ -53,8 +43,13 @@ export class CreateModal extends Component {
           Submit
         </button>
       </form>
-    );
+    )
   };
+
+  renderForm = formtype => {
+    return this.forms[formtype];
+  };
+  //#endregion
 
   render() {
     let contents = this.state.loading ? (
@@ -62,11 +57,12 @@ export class CreateModal extends Component {
         <em>Loading...</em>
       </p>
     ) : (
-      this.renderForm()
+      this.renderForm(this.props.modalType)
     );
 
     let Modal = styled.dialog`
       display: grid;
+      width: 75%;
     `;
 
     let Button = styled.button`
@@ -82,7 +78,7 @@ export class CreateModal extends Component {
         >
           X
         </Button>
-        <h1>Add an Item to Your Wish List</h1>
+        <h1>{this.props.children}</h1>
         {contents}
       </Modal>
     );
