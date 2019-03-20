@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { CreateModal } from "./CreateModal";
+import { EditModal } from "./EditModal";
 import styled from "styled-components";
 import { MyButton } from "./MyButton";
 
@@ -8,7 +9,12 @@ export class WishList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { wishListItems: [], loading: true, createModalHidden: true };
+    this.state = {
+      wishListItems: [],
+      loading: true,
+      createModalHidden: true,
+      editModalHidden: true
+    };
 
     fetch("api/WishListItems")
       .then(response => response.json())
@@ -63,7 +69,7 @@ export class WishList extends Component {
         <MyButton
           buttonData={createButtonData}
           type="submit"
-          onClick={this.handleModalToggle}
+          onClick={this.handleCreateModalToggle}
         >
           Add Wish List Item
         </MyButton>
@@ -76,11 +82,24 @@ export class WishList extends Component {
       <CreateModal
         modalType="WishList"
         isClosed={this.state.createModalHidden}
-        handleClose={this.handleModalToggle}
+        handleClose={this.handleCreateModalToggle}
         handleCreate={this.handleCreate}
       >
         Add an Item to Your Wish List
       </CreateModal>
+    );
+  };
+
+  renderEditModal = () => {
+    return (
+      <EditModal
+        modalType="WishList"
+        isClosed={this.state.editModalHidden}
+        handleClose={this.handleEditModalToggle}
+        handleEdit={this.handleEdit}
+      >
+        Edit WishList Item
+      </EditModal>
     );
   };
 
@@ -124,7 +143,7 @@ export class WishList extends Component {
                 <MyButton
                   buttonData={editButtonData}
                   type="button"
-                  onClick={() => this.handleEdit(wishListItem.id)}
+                  onClick={() => this.handleEditModalToggle()}
                 >
                   Edit
                 </MyButton>
@@ -136,10 +155,16 @@ export class WishList extends Component {
     );
   };
 
-  handleModalToggle = () => {
+  handleCreateModalToggle = () => {
     this.state.createModalHidden
       ? this.setState({ createModalHidden: false })
       : this.setState({ createModalHidden: true });
+  };
+
+  handleEditModalToggle = () => {
+    this.state.createModalHidden
+      ? this.setState({ editModalHidden: false })
+      : this.setState({ editModalHidden: true });
   };
   //#endregion //*---------------------------------------------------------------------------------------
 
@@ -180,6 +205,7 @@ export class WishList extends Component {
       <div>
         {this.renderHeader()}
         {this.renderCreateModal()}
+        {this.renderEditModal()}
         {this.renderTable()}
       </div>
     );
