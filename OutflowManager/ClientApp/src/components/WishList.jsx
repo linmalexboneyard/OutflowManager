@@ -71,7 +71,7 @@ export class WishList extends Component {
     );
   };
 
-  renderModal = () => {
+  renderCreateModal = () => {
     return (
       <CreateModal
         modalType="WishList"
@@ -179,7 +179,7 @@ export class WishList extends Component {
     ) : (
       <div>
         {this.renderHeader()}
-        {this.renderModal()}
+        {this.renderCreateModal()}
         {this.renderTable()}
       </div>
     );
