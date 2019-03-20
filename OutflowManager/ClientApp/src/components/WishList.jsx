@@ -8,7 +8,7 @@ export class WishList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { wishListItems: [], loading: true, modalIsHidden: true };
+    this.state = { wishListItems: [], loading: true, createModalHidden: true };
 
     fetch("api/WishListItems")
       .then(response => response.json())
@@ -75,7 +75,7 @@ export class WishList extends Component {
     return (
       <CreateModal
         modalType="WishList"
-        isClosed={this.state.modalIsHidden}
+        isClosed={this.state.createModalHidden}
         handleClose={this.handleModalToggle}
         handleCreate={this.handleCreate}
       >
@@ -84,7 +84,7 @@ export class WishList extends Component {
     );
   };
 
-  renderWishListTable = () => {
+  renderTable = () => {
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -137,9 +137,9 @@ export class WishList extends Component {
   };
 
   handleModalToggle = () => {
-    this.state.modalIsHidden
-      ? this.setState({ modalIsHidden: false })
-      : this.setState({ modalIsHidden: true });
+    this.state.createModalHidden
+      ? this.setState({ createModalHidden: false })
+      : this.setState({ createModalHidden: true });
   };
   //#endregion //*---------------------------------------------------------------------------------------
 
@@ -180,7 +180,7 @@ export class WishList extends Component {
       <div>
         {this.renderHeader()}
         {this.renderModal()}
-        {this.renderWishListTable()}
+        {this.renderTable()}
       </div>
     );
 

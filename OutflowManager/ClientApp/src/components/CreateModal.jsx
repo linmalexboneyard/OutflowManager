@@ -61,24 +61,35 @@ export class CreateModal extends Component {
     );
 
     let Modal = styled.dialog`
+      height: auto;
       display: grid;
+      grid-template-rows: 15% auto;
       width: 75%;
     `;
 
+    let ModalHeader = styled.div`
+      display: inline-grid;
+      grid-template-columns: auto auto;
+    `;
+
     let Button = styled.button`
+      width: 50px;
+      height: 50px;
       justify-self: end;
     `;
 
     return (
       <Modal hidden={this.props.isClosed}>
-        <Button
-          className="btn btn-primary"
-          type="submit"
-          onClick={this.props.handleClose}
-        >
-          X
-        </Button>
-        <h1>{this.props.children}</h1>
+        <ModalHeader>
+          <h1>{this.props.children}</h1>
+          <Button
+            className="btn btn-primary"
+            type="submit"
+            onClick={this.props.handleClose}
+          >
+            X
+          </Button>
+        </ModalHeader>
         {contents}
       </Modal>
     );
